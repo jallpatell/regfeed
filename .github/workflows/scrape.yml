@@ -2,8 +2,7 @@ name: Run Stock News Scraper
 
 on:
   schedule:
-  - cron: "30 10 * * *"
-
+    - cron: "30 10 * * *" #At 04:00 PM(IST) every day
   workflow_dispatch:
 
 jobs:
@@ -12,10 +11,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
@@ -43,9 +42,15 @@ jobs:
 
       - name: Install project dependencies
         run: npm install
-      
-          
+
+      # Optional: If puppeteer is not already in package.json
+      # - name: Install Puppeteer
+      #   run: npm install puppeteer
+
       - name: Run scraper
         run: node regularfeed.js
+        env:
+          WP_API_URL: ${{ secrets.WP_API_URL }}
+        
       
           
